@@ -501,7 +501,7 @@
         <button class="btn btn-secondary" id="copyBtn" onclick="copyPageLink()">
           <i class="fa-solid fa-link"></i> Copy link
         </button>
-        <button class="btn btn-primary" onclick="vote()">
+        <button class="btn btn-primary" onclick="openVotePage()">
           <i class="fa-brands"></i> Upvote!
       </div>
     </section>
@@ -643,22 +643,10 @@
 
     const DISCORD_SERVER_ID = '1570573906882854942';
 
-    async function vote() {
-      if ( !DISCORD_SERVER_ID ) return;
-      try {
-        const res = await fetch('https://communityone.io/servers/' + DISCORD_SERVER_ID + '/vote',{
-          method: 'POST',
-          mode: 'cors',
-          headers : {
-            'Content-Type':'application/json',
-          }
-        } );
-        if ( !res.ok ) return;
-        const data = await res.json();
-        console.log( data );
-      } catch( err ) {
-        console.log( err );
-      }
+    function openVotePage() {
+      if (!DISCORD_SERVER_ID) return;
+      const voteUrl = `https://communityone.io{DISCORD_SERVER_ID}/vote`;
+      window.open(voteUrl, '_blank', 'noopener,noreferrer');
     }
 
     async function loadDiscordWidget() {
