@@ -501,6 +501,8 @@
         <button class="btn btn-secondary" id="copyBtn" onclick="copyPageLink()">
           <i class="fa-solid fa-link"></i> Copy link
         </button>
+        <button class="btn btn-primary" onclick="vote()">
+          <i class="fa-brands"></i> Upvote!
       </div>
     </section>
 
@@ -639,25 +641,42 @@
         });
     }
 
-    // 4. Optional Live Discord Widget API Integration
-    const DISCORD_SERVER_ID = '1570573906882854942'; // Paste your Discord Server ID here
+    const DISCORD_SERVER_ID = '1570573906882854942';
+
+    async function vote() {
+      if ( !DISCORD_SERVER_ID ) return;
+      try {
+        const res = await fetch('https://communityone.io/servers/' + DISCORD_SERVER_ID + '/vote',{
+          method: 'POST',
+          mode: 'cors',
+          headers : {
+            'Content-Type':'application/json',
+          }
+        } );
+        if ( !res.ok ) return;
+        const data = await res.json();
+        console.log( data );
+      } catch( err ) {
+        console.log( err );
+      }
+    }
 
     async function loadDiscordWidget() {
-      if (!DISCORD_SERVER_ID) return;
+      if ( !DISCORD_SERVER_ID ) return;
       try {
-        const res = await fetch('https://discord.com/api/guilds/' + DISCORD_SERVER_ID + '/widget.json');
-        if (!res.ok) return;
+        const res = await fetch( 'https://discord.com/api/guilds/' + DISCORD_SERVER_ID + '/widget.json' );
+        if ( !res.ok ) return;
         const data = await res.json();
 
-        if (data.presence_count !== undefined) {
-          document.getElementById('onlineCount').textContent = data.presence_count;
-          document.getElementById('sidebarOnline').textContent = `${data.presence_count} members online`;
+        if ( data.presence_count !== undefined ) {
+          document.getElementById( 'onlineCount' ).textContent = data.presence_count;
+          document.getElementById( 'sidebarOnline' ).textContent = `${data.presence_count} members online`;
         }
-        if (data.instant_invite) {
-          document.getElementById('discordInviteBtn').href = data.instant_invite;
+        if ( data.instant_invite ) {
+          document.getElementById( 'discordInviteBtn' ).href = data.instant_invite;
         }
-      } catch (err) {
-        console.log('Discord widget unavailable or disabled.');
+      } catch ( err ) {
+        console.log( 'Discord widget unavailable or disabled.' );
       }
     }
 

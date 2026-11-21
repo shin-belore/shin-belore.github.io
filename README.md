@@ -1,2 +1,4 @@
 # shin-belore.github.io
-advertisment gooning discord server
+NSFW Gooning Advertisements Discord Server
+
+Specializing in gooning-related advertisements, gaming and member achievements.
